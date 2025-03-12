@@ -7,16 +7,18 @@ const Router = express.Router();
 
 //aliasing using middleware
 
-Router.route('/house-stats').get(houseController.getHouseStats); // Corrected method name
+//Router.route('/house-stats').get(houseController.getHouseStats); // Corrected method name
+
+
 Router.route('/buyHouse/:id').patch(authController.protect, houseController.buyHouse);
 
 Router.route('/')
   .get(authController.protect, houseController.getAllTHouses) // Corrected method name
-  .post(houseController.createHouse);
+  .post(authController.protect,authController.restrictTo('admin','company'),houseController.createHouse);
 
 Router.route('/:id')
-  .get(houseController.getHouse)
-  .patch(houseController.updateHouse)
+  .get(authController.protect,houseController.getHouse)
+  .patch(authController.protect,houseController.updateHouse)
   .delete(authController.protect, authController.restrictTo('admin', 'Company'), houseController.deleteHouse);
 
 module.exports = Router;

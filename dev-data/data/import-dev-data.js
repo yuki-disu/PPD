@@ -5,11 +5,11 @@ const House = require('./../../models/houseModel')
 
 const mongoose = require('mongoose');
 
-// const DB = process.env.DATABASE.replace(
-//     '<db_password>',
-//     process.env.DATABASE_PASSWORD
-// );
-DB = process.env.DATABASE_LOCAL;
+const DB = process.env.DATABASE.replace(
+    '<db_password>',
+    process.env.DATABASE_PASSWORD
+);
+// DB = process.env.DATABASE_LOCAL;
 mongoose
     .connect(DB , {
         useNewUrlParser: true,

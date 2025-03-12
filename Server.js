@@ -11,12 +11,12 @@ process.on('uncaughtException', (err) => {
 
 mongoose.set('strictQuery', true);
 
-// const DB = process.env.DATABASE.replace(
-//     '<db_password>',
-//     process.env.DATABASE_PASSWORD
-// );
+const DB = process.env.DATABASE.replace(
+    '<db_password>',
+    process.env.DATABASE_PASSWORD
+);
 
-DB = process.env.DATABASE_LOCAL;
+// DB = process.env.DATABASE_LOCAL;
 
 mongoose
   .connect(DB, {
