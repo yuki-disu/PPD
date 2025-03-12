@@ -15,7 +15,18 @@ const signToken = (id) => {
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRESIN * 24 * 60 * 60 * 1000,
+    ),
+    httpOnly: true 
+  };
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
+  res.cookie('jwt', token, cookieOptions);
+  //remove sensitive fields from output
+  user.password = undefined;
+  user.passwordChangedAt = undefined; // Add this line
   res.status(statusCode).json({
     status: 'success',
     token,
@@ -65,7 +76,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   if (!token) {
     return next(
-      new appError('You are not logged in! Please log in to get access', 401)
+      new appError('You are not logged in! Please log in to get access', 401),
     );
   }
 
@@ -79,14 +90,14 @@ exports.protect = catchAsync(async (req, res, next) => {
     return next(
       new appError(
         'The user belonging to this token does no longer exist.',
-        401
-      )
+        401,
+      ),
     );
   }
   // Check if user changed password after token was issued
   if (currentUser.changedPasswordAfter(decoded.iat)) {
     return next(
-      new appError('User recently changed password! Please log in again.', 401)
+      new appError('User recently changed password! Please log in again.', 401),
     );
   }
 
@@ -100,7 +111,7 @@ exports.restrictTo = (...roles) => {
     // roles ['admin','lead-guide']
     if (!roles.includes(req.user.role)) {
       return next(
-        new appError('You do not have permission to perform this action', 403)
+        new appError('You do not have permission to perform this action', 403),
       );
     }
     next();
@@ -138,8 +149,8 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     return next(
       new appError(
         'There was an error sending the email, try again later!',
-        500
-      )
+        500,
+      ),
     );
   }
 });

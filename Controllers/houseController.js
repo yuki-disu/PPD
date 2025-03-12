@@ -39,7 +39,15 @@ const getHouse = catchAsync(async (req, res, next) => {
     },
   });
 });
-
+const buyHouse = catchAsync(async (req,res,next) => {
+  const house = await House.findByIdAndUpdate(req.params.id, { sold: true });
+  if (!house) {
+    return next(new AppError('No house found with that ID', 404));
+  }
+  res.status(204).json({
+    status: 'success'
+  });
+})
 const createHouse = catchAsync(async (req, res, next) => {
   const newHouse = await House.create(req.body);
 
@@ -122,4 +130,5 @@ module.exports = {
   createHouse,
   updateHouse,
   deleteHouse,
+  buyHouse,
 };

@@ -68,7 +68,10 @@ const houseSchema = new mongoose.Schema(
       default: Date.now(),
       select: false,
     },
-    sold: Boolean,
+    sold: {
+      type: Boolean,
+      default: false
+    },
     rented: Boolean,
     visibleHouse: {
       type: Boolean,
@@ -121,6 +124,21 @@ const houseSchema = new mongoose.Schema(
   },
 );
 
+
+houseSchema.pre(/^find/, function (next) {
+  this.find({ sold: { $ne: true } });
+  next();
+});
+
+houseSchema.pre('findOne', function (next) {
+  this.find({ sold: { $ne: true } });
+  next();
+});
+
+houseSchema.pre('findById', function (next) {
+  this.find({ sold: { $ne: true } });
+  next();
+});
 //Document middleware : runs before .save() and .creat()
 
 // houseSchema.pre('save', function(next){
