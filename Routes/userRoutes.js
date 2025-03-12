@@ -7,11 +7,15 @@ const Router = express.Router();
 Router.post('/signup', authController.signUp);
 Router.post('/login', authController.login);
 
+Router.post('/forgotPassword', authController.forgotPassword);
+Router.patch('/resetPassword/:token', authController.resetPassword);
 
+Router.patch('/updateMyPassword',authController.protect,authController.updatePassword);
+Router.patch('/updateMe',authController.protect,userController.updateMe);
 Router
  .route('/')
     .get(userController.getAllUsers)
-    .post(userController.creatUser)
+    .post(userController.createUser)
     
 Router
  .route('/:id')

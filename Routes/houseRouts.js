@@ -16,6 +16,6 @@ Router.route('/')
 Router.route('/:id')
   .get(houseController.getHouse)
   .patch(houseController.updateHouse)
-  .delete(houseController.deleteHouse);
+  .delete(authController.protect,authController.restrictTo('admin','Company'),houseController.deleteHouse);
 
 module.exports = Router;
