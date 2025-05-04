@@ -15,6 +15,7 @@ Router.patch('/updateMyPassword',authController.protect,authController.updatePas
 Router.patch('/updateMe',authController.protect,authController.updateMe);
 Router.delete('/deleteMe',authController.protect,authController.deleteMe);
 
+Router.get("/relatedEstates",authController.protect,userController.getUserThings);
 
 
 Router

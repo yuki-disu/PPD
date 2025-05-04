@@ -3,8 +3,10 @@ const transactionSchema = require('../validators/transactionValidator');
 const sequelize = require('../config/db');
 const AppError = require('../utilities/appError');
 const catchAsync = require('../utilities/catchAsync');
+const User = require('./userModel');
 
-const Transactions = sequelize.define('Transaction', {
+// Create the Transactions model
+const Transactions = sequelize.define('Transactions', {
   id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
@@ -44,9 +46,8 @@ const Transactions = sequelize.define('Transaction', {
   },
 }, {
   tableName: 'transactions',
-  timestamps: false, // Ensure this is set to true
+  timestamps: false,
 });
-
 
 Transactions.createTransaction = async function (data) {
     const { error } = transactionSchema.validate(data, { abortEarly: false });
@@ -86,8 +87,7 @@ Transactions.createTransaction = async function (data) {
     return transaction;
 };
 
+// We'll set up the associations in a separate file
+// to avoid circular dependencies
 
 module.exports = Transactions;
-
-
-

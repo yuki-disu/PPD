@@ -27,33 +27,14 @@ const User = sequelize.define('User', {
     },
     firstname: {
         type: DataTypes.STRING(100),
-        allowNull: false,//disbale it for now
+        allowNull: false,
         defaultValue: 'User',
-        // validate: {
-        //     notEmpty: {
-        //         msg: 'Please provide your name'
-        //     }
-        // }
     },
     lastname: {
         type: DataTypes.STRING(100),
         allowNull: false,
         defaultValue: 'User',
-        // validate: {
-        //     notEmpty: {
-        //         msg: 'Please provide your name'
-        //     }
-        // }
     },
-    // image: {
-    //     type: DataTypes.STRING(255),
-    //     allowNull: true,
-    //     validate: {
-    //         isUrl: {
-    //             msg: 'Please provide a valid image URL'
-    //         }
-    //     }
-    // },
     email: {
         type: DataTypes.STRING(100),
         allowNull: false,
@@ -165,7 +146,6 @@ User.prototype.changedPasswordAfter = function(JWTTimestamp) {
   return false;
 };
 
-  
 // Instance method to create a reset token
 User.prototype.createPasswordResetToken = function () {
     const resetToken = crypto.randomBytes(32).toString('hex'); // Generate token
@@ -174,11 +154,10 @@ User.prototype.createPasswordResetToken = function () {
     this.passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000); // Expires in 10 minutes
   
     return resetToken;
-  };
-
+};
 
 // Static method to create user
-User.createUser =async function(data) {
+User.createUser = async function(data) {
     // Validate input data
     const { error, value: userData } = userSchema.validate(data, { 
         abortEarly: false,
@@ -211,5 +190,7 @@ User.createUser =async function(data) {
         throw err;
     }
 };
+
+// We don't define relationships here to avoid circular dependencies
 
 module.exports = User;

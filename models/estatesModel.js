@@ -3,6 +3,7 @@ const sequelize = require('../config/db');
 const AppError = require('../utilities/appError');
 const catchAsync = require('../utilities/catchAsync');
 const { estateSchema } = require('../Validators/estateValidator');
+const User = require('./userModel');
 
 const Estates = sequelize.define('estates', {
   id: {
@@ -139,7 +140,6 @@ const Estates = sequelize.define('estates', {
     allowNull: true,
     defaultValue: false,
   },
-  // 👇 New fields start here
   elevator: {
     type: DataTypes.BOOLEAN,
     allowNull: true,
@@ -213,25 +213,29 @@ const Estates = sequelize.define('estates', {
 }, {
   tableName: 'estates',
   timestamps: false,
-// Add this to your model definition
-hooks: {
-  afterFind: (results) => {
-    if (!results) return;
-    
-    const parseImages = (estate) => {
-      if (estate?.images && typeof estate.images === 'string') {
-        estate.images = JSON.parse(estate.images);
-      }
-      return estate;
-    };
+  hooks: {
+    afterFind: (results) => {
+      if (!results) return;
+      
+      const parseImages = (estate) => {
+        if (estate?.images && typeof estate.images === 'string') {
+          estate.images = JSON.parse(estate.images);
+        }
+        return estate;
+      };
 
-    if (Array.isArray(results)) {
-      results.forEach(parseImages);
-    } else {
-      parseImages(results);
-    }
+      if (Array.isArray(results)) {
+        results.forEach(parseImages);
+      } else {
+        parseImages(results);
+      }
+    },
   },
-},
 });
+
+// We'll set up the association between Estates and User here
+Estates.belongsTo(User, { foreignKey: 'owner_id', as: 'owner' });
+
+// We don't import Transactions here anymore to avoid circular dependencies
 
 module.exports = Estates;
