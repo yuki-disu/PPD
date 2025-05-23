@@ -1,0 +1,7 @@
+.custom-table thead {
+  background-color: rgb(162, 158, 158); /* Change this to the color you want */
+}
+
+.custom-table thead th {
+  font-weight: bold;
+}

@@ -1,0 +1,15 @@
+.custom-select .ant-select-selector {
+  border-radius: 9999px !important;
+  border-color: #7abc87 !important;
+  font-family: "Inter", sans-serif;
+}
+/* Purple Track and Handle */
+/* Selected part of the slider */
+.ant-slider-track {
+  background-color: #7abc87 !important;
+}
+
+/* Unselected part */
+.ant-slider-rail {
+  background-color: #ddf0db !important; /* lighter purple shade */
+}

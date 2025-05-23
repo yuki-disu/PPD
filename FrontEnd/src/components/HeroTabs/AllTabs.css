@@ -1,0 +1,39 @@
+.custom-tabs .ant-tabs-nav {
+  justify-content: start;
+  font-family: "Inter", sans-serif;
+}
+@media (max-width: 640px) {
+  .custom-tabs .ant-tabs-nav .ant-tabs-tab {
+    font-size: 14px; /* adjust size as needed */
+    padding: 6px 8px; /* optional: reduce padding */
+  }
+}
+.custom-tabs .ant-tabs-tab {
+  font-weight: 600;
+  font-size: 16px;
+  color: #7abc87; /* Purple for default */
+  padding: 8px 16px;
+  border-radius: 10px 10px 0 0;
+  transition: all 0.3s ease;
+}
+.custom-tabs .ant-tabs-content-holder {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.custom-tabs .ant-tabs-tab-active {
+  background-color: #f3f0fc; /* Optional soft background */
+}
+
+.custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #7abc87 !important; /* Keep it purple even when active */
+}
+
+.custom-tabs .ant-tabs-tab-btn {
+  color: #7abc87;
+}
+
+.custom-tabs .ant-tabs-ink-bar {
+  background: #7abc87;
+  height: 3px;
+}
